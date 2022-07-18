@@ -1,0 +1,48 @@
+type Motivation {
+  created_at: DateTime
+  id: ID!
+  message: String
+  author: String
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getMotivationList: [Motivation]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "motivation"
+      configuration: "postgresql_config"
+    )
+  getMotivation(id: ID!): Motivation
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "motivation"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertMotivation(created_at: DateTime!, message: String!): Motivation
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "motivation"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteMotivation(id: ID!): Motivation
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "motivation"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}

@@ -1,0 +1,16 @@
+schema
+  @sdl(
+    files: [
+      "postgresql-01/postgresql.graphql"
+      "postgresql-02/postgresql.graphql"
+      "postgresql-03/postgresql.graphql"
+      "postgresql-04/postgresql.graphql"
+      "postgresql-05/postgresql.graphql"
+      "postgresql-06/postgresql.graphql"
+      "postgresql-07/postgresql.graphql"
+      "postgresql-08/postgresql.graphql"
+      "postgresql/postgresql.graphql"
+    ]
+  ) {
+  query: Query
+}

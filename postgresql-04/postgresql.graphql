@@ -1,0 +1,133 @@
+type Ps_lessons {
+  cat_id: ID
+  category2: String
+  created_at: DateTime
+  id: ID!
+  ps_course_categoryUsingCat_id: Ps_course_category
+    @materializer(
+      query: "getPs_course_category"
+      arguments: [
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+        { name: "id", field: "cat_id" }
+      ]
+    )
+  ps_course_categoryUsingCategory2: Ps_course_category
+    @materializer(
+      query: "getPs_course_category"
+      arguments: [
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+        { name: "category", field: "category2" }
+      ]
+    )
+  video_length_in_minutes: Float
+  video_url_main: String
+  video_url_preview: String
+  lesson_desc: String
+  sort_id: Int
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getPs_lessonsUsingCat_id(id: ID!): [Ps_lessons]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."cat_id", T."category2", T."created_at", T."id", T."lesson_desc", T."sort_id", T."video_length_in_minutes", T."video_url_main", T."video_url_preview"
+        FROM "public"."ps_lessons" T
+        WHERE T."cat_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_lessonsUsingCategory2(category: String!): [Ps_lessons]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."cat_id", T."category2", T."created_at", T."id", T."lesson_desc", T."sort_id", T."video_length_in_minutes", T."video_url_main", T."video_url_preview"
+        FROM "public"."ps_lessons" T
+        WHERE T."category2" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_lessonsList: [Ps_lessons]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_lessons"
+      configuration: "postgresql_config"
+    )
+  getPs_lessons(id: ID!): Ps_lessons
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_lessons"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertPs_lessons(
+    created_at: DateTime!
+    video_url_main: String!
+    video_url_preview: String!
+    video_length_in_minutes: Float!
+    id: ID!
+    category2: String!
+    cat_id: ID!
+  ): Ps_lessons
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_lessons"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deletePs_lessons(id: ID!): Ps_lessons
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_lessons"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+UUID
+"""
+scalar Uuidgenerator_UUID
+
+type Query {
+  uuidgenerator_version4: Uuidgenerator_UUID
+    @rest(
+      endpoint: "https://www.uuidgenerator.net/api/version4"
+      cachepolicy: { strategy: OFF }
+      cel: "function transformREST(s) { return JSON.stringify(s); }"
+    )
+}

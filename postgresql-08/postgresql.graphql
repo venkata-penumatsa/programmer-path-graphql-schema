@@ -1,0 +1,66 @@
+type Ps_skills_you_will_gain {
+  created_at: DateTime
+  desc: String
+  id: ID!
+  ps_course: Ps_course @materializer(query: "getPs_course")
+  slug: String
+  sort_id: Int
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getPs_skills_you_will_gainUsingSlug(slug: String!): [Ps_skills_you_will_gain]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."desc", T."id", T."slug", T."sort_id"
+        FROM "public"."ps_skills_you_will_gain" T
+        WHERE T."slug" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_skills_you_will_gainList: [Ps_skills_you_will_gain]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_skills_you_will_gain"
+      configuration: "postgresql_config"
+    )
+  getPs_skills_you_will_gain(id: ID!): Ps_skills_you_will_gain
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_skills_you_will_gain"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertPs_skills_you_will_gain(
+    sort_id: Int!
+    id: ID!
+    slug: String!
+    created_at: DateTime!
+    desc: String!
+  ): Ps_skills_you_will_gain
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_skills_you_will_gain"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deletePs_skills_you_will_gain(id: ID!): Ps_skills_you_will_gain
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_skills_you_will_gain"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}

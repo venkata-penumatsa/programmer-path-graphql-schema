@@ -1,0 +1,71 @@
+type Ps_course_category {
+  category: String
+  created_at: DateTime
+  id: ID!
+  ps_course: Ps_course @materializer(query: "getPs_course")
+  slug: String
+  total_lessons: String
+  ps_lessonsListUsingCat_id: [Ps_lessons]
+    @materializer(query: "getPs_lessonsUsingCat_id")
+  ps_lessonsListUsingCategory2: [Ps_lessons]
+    @materializer(query: "getPs_lessonsUsingCategory2")
+  sort_id: Float
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getPs_course_categoryUsingSlug(slug: String!): [Ps_course_category]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."category", T."created_at", T."id", T."slug", T."sort_id", T."total_lessons"
+        FROM "public"."ps_course_category" T
+        WHERE T."slug" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_course_categoryList: [Ps_course_category]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course_category"
+      configuration: "postgresql_config"
+    )
+  getPs_course_category(id: ID!): Ps_course_category
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course_category"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertPs_course_category(
+    created_at: DateTime!
+    id: ID!
+    slug: String!
+    category: String!
+    total_lessons: String!
+  ): Ps_course_category
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course_category"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deletePs_course_category(id: ID!): Ps_course_category
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course_category"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}

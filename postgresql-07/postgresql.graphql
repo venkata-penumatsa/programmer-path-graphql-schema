@@ -1,0 +1,66 @@
+type Ps_what_you_will_learn {
+  created_at: DateTime
+  desc: String
+  id: ID!
+  ps_course: Ps_course @materializer(query: "getPs_course")
+  slug: String
+  sort_id: Int
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getPs_what_you_will_learnUsingSlug(slug: String!): [Ps_what_you_will_learn]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."desc", T."id", T."slug", T."sort_id"
+        FROM "public"."ps_what_you_will_learn" T
+        WHERE T."slug" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_what_you_will_learnList: [Ps_what_you_will_learn]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_what_you_will_learn"
+      configuration: "postgresql_config"
+    )
+  getPs_what_you_will_learn(id: ID!): Ps_what_you_will_learn
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_what_you_will_learn"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertPs_what_you_will_learn(
+    sort_id: Int!
+    id: ID!
+    slug: String!
+    created_at: DateTime!
+    desc: String!
+  ): Ps_what_you_will_learn
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_what_you_will_learn"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deletePs_what_you_will_learn(id: ID!): Ps_what_you_will_learn
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_what_you_will_learn"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}

@@ -1,0 +1,68 @@
+type Ps_seo {
+  created_at: DateTime
+  desc: String
+  id: ID!
+  image: String
+  ps_course: Ps_course @materializer(query: "getPs_course")
+  slug: String
+  title: String
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getPs_seoUsingSlug(slug: String!): [Ps_seo]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."desc", T."id", T."image", T."slug", T."title"
+        FROM "public"."ps_seo" T
+        WHERE T."slug" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_seoList: [Ps_seo]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_seo"
+      configuration: "postgresql_config"
+    )
+  getPs_seo(id: ID!): Ps_seo
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_seo"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertPs_seo(
+    image: String!
+    id: ID!
+    slug: String!
+    title: String!
+    created_at: DateTime!
+    desc: String!
+  ): Ps_seo
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_seo"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deletePs_seo(id: ID!): Ps_seo
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_seo"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}

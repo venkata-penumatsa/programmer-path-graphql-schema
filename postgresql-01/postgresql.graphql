@@ -1,0 +1,40 @@
+type Query {
+  """
+  This query is an example of how to simply paginate your responses.
+  """
+  getPaginatedPs_courseList(first: Int!, after: Int!): [Ps_course]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."ps_course" limit $1 offset $2
+      """
+      configuration: "postgresql_config"
+    )
+  """
+  In this example, a single query parameter is passed. If the request to the DB will
+  return at most one value you can remove the square brackets from the result.
+  """
+  getPs_courseByCreated_at(created_at: DateTime!): [Ps_course]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."ps_course" where "created_at" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  """
+  In this example, two query parameters are passed. If the request to the DB will
+  return at most one value you can remove the square brackets from the result.
+  """
+  getPs_courseByCreated_atAndLanguage(
+    created_at: DateTime!
+    language: String!
+  ): [Ps_course]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."ps_course" where "created_at" = $1 and "language" = $2
+      """
+      configuration: "postgresql_config"
+    )
+}

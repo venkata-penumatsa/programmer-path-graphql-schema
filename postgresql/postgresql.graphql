@@ -1,0 +1,79 @@
+type Ps_course {
+  created_at: DateTime
+  long_desc: String
+  overview: String
+  price: String
+  short_desc: String
+  slug: String!
+  language: String
+  length_in_minutes: String
+  level: String
+  trainer_name: String
+  highlight: String
+  img_url: String
+  is_free: Boolean
+  rating: String
+  total_reviews: String
+  ps_course_categoryList: [Ps_course_category]
+    @materializer(query: "getPs_course_categoryUsingSlug")
+  trainer_avatar: String
+  number_of_enrollments: Int
+  ps_course_enrollmentsList: [Ps_course_enrollments]
+    @materializer(query: "getPs_course_enrollmentsUsingSlug")
+  ps_seoList: [Ps_seo] @materializer(query: "getPs_seoUsingSlug")
+  ps_what_you_will_learnList: [Ps_what_you_will_learn]
+    @materializer(query: "getPs_what_you_will_learnUsingSlug")
+  ps_skills_you_will_gainList: [Ps_skills_you_will_gain]
+    @materializer(query: "getPs_skills_you_will_gainUsingSlug")
+  course_preview: String
+  trainer_profile: String
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getPs_courseList: [Ps_course]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course"
+      configuration: "postgresql_config"
+    )
+  getPs_course(slug: String!): Ps_course
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertPs_course(
+    overview: String!
+    slug: String!
+    short_desc: String!
+    price: String!
+    created_at: DateTime!
+    long_desc: String!
+  ): Ps_course
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deletePs_course(slug: String!): Ps_course
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}

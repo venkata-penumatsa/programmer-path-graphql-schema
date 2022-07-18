@@ -1,0 +1,92 @@
+type Ps_course_enrollments {
+  created_at: DateTime
+  enrollment_end_date: Date
+  enrollment_start_date: Date
+  id: ID!
+  ps_course: Ps_course @materializer(query: "getPs_course")
+  slug: String
+  user_id: String
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getPs_course_enrollmentsUsingSlug(slug: String!): [Ps_course_enrollments]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."enrollment_end_date", T."enrollment_start_date", T."id", T."slug", T."user_id"
+        FROM "public"."ps_course_enrollments" T
+        WHERE T."slug" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_course_enrollmentsUsingSlugAndUser(
+    slug: String!
+    user_id: String!
+  ): [Ps_course_enrollments]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."enrollment_end_date", T."enrollment_start_date", T."id", T."slug", T."user_id"
+        FROM "public"."ps_course_enrollments" T
+        WHERE T."slug" = $1 and T."user_id" = $2
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_course_enrollmentsUsingUserOnly(
+    user_id: String!
+  ): [Ps_course_enrollments]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."enrollment_end_date", T."enrollment_start_date", T."id", T."slug", T."user_id"
+        FROM "public"."ps_course_enrollments" T
+        WHERE T."user_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getPs_course_enrollmentsList: [Ps_course_enrollments]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course_enrollments"
+      configuration: "postgresql_config"
+    )
+  getPs_course_enrollments(id: ID!): Ps_course_enrollments
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course_enrollments"
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertPs_course_enrollments(
+    user_id: String!
+    id: ID!
+    enrollment_start_date: Date!
+    enrollment_end_date: Date!
+    slug: String!
+  ): Ps_course_enrollments
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course_enrollments"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deletePs_course_enrollments(id: ID!): Ps_course_enrollments
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "ps_course_enrollments"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}
